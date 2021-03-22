@@ -1,5 +1,7 @@
 package com.ss.mar.jb.utopia.DAO;
 
+import com.ss.mar.jb.utopia.FrontEnd.MenuSystem;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -10,15 +12,17 @@ public class DbConnect  {
     private static final String username = "root";
     private static final String password = "MySQL3131#!#!";
 
-    public ArrayList<ArrayList<String>> conn(String sqlStatement)  {
+    //Selects
+    public ArrayList<ArrayList<String>> connSelect(String sqlStatement) throws SQLException {
         ArrayList<ArrayList<String>> results = new ArrayList<>();
 
+        Connection conn = DriverManager.getConnection(url,username,password);
 
         //Register th driver
         try {
             Class.forName(driver);
             //Create Connection
-            Connection conn = DriverManager.getConnection(url,username,password);
+//            Connection conn = DriverManager.getConnection(url,username,password);
             //Statement
             Statement stmt = conn.createStatement();
             PreparedStatement pstmt =
@@ -34,18 +38,78 @@ public class DbConnect  {
 
                 for (int i = 1; i <= size; i++) {
                     A.add(rs.getString(i));
-
                 }
-                
 //                A.add(rs.getString(1));
 //                A.add(rs.getString(2));
                 results.add(A);
             }
-
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            conn.close();
+        }
         return results;
+    }
+
+    public Integer insUpconn(String sqlInsertorUpdate, boolean isGenKeyExpected) throws SQLException {
+
+        Connection conn = DriverManager.getConnection(url,username,password);
+        Integer genKey=0;
+
+        if (!isGenKeyExpected){
+            try {
+                Class.forName(driver);
+
+                PreparedStatement pstmt =
+                        conn.prepareStatement((sqlInsertorUpdate));
+                genKey = pstmt.executeUpdate();
+
+            } catch (ClassNotFoundException | SQLException e) {
+                MenuSystem M = new MenuSystem();
+                System.out.println("There was an issue with your request." +
+                        " Please check your input. Returning to the Main Menu\n\n\n");
+                System.out.println(sqlInsertorUpdate + "\n");
+                M.mainMenu();
+//            System.out.println("block it");
+            }
+            finally {
+                conn.close();
+            }
+        }
+        else {
+            PreparedStatement pstmt = conn.prepareStatement(sqlInsertorUpdate,
+                    new String[]{ "ID"});
+            if (pstmt.executeUpdate() > 0){
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if (null != generatedKeys && generatedKeys.next()) {
+
+                    genKey = generatedKeys.getInt(1);
+                }
+            }
+
+        }
+
+//        try {
+//            Class.forName(driver);
+//
+//            PreparedStatement pstmt =
+//                    conn.prepareStatement((sqlInsertorUpdate));
+//            genKey = pstmt.executeUpdate();
+//
+//        } catch (ClassNotFoundException | SQLException e) {
+//            MenuSystem M = new MenuSystem();
+//            System.out.println("There was an issue with your request." +
+//                    " Please check your input. Returning to the Main Menu\n\n\n");
+//            M.mainMenu();
+////            System.out.println("block it");
+//        }
+//        finally {
+//            conn.close();
+//        }
+
+        return genKey;
+
     }
 
 
@@ -124,4 +188,5 @@ public class DbConnect  {
 
 
     }
+
 }

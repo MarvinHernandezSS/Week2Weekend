@@ -1,105 +1,61 @@
-package com.ss.mar.jb.utopia.FrontEnd;
+package com.ss.mar.jb.utopia.service;
 
 import com.ss.mar.jb.utopia.DAO.DbConnect;
+import com.ss.mar.jb.utopia.FrontEnd.SwappableMenuSystem;
 import com.ss.mar.jb.utopia.entities.Airport;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuSystem {
+public class HandleFrontEndResponse {
 
     private Integer x = 0;
-    private String a;
     private Integer counter = 1;
+    SwappableMenuSystem menu = new SwappableMenuSystem();
 
-    public void mainMenu() {
-        Scanner userInput = new Scanner(System.in);
+    public void handleMainMenuResponse(Scanner scan) {
 
-        System.out.println("Welcome to the Utopia Airlines Management System. " +
-                "Which category of a user are you?");
-        System.out.println("1) Employee");
-        System.out.println("2) Administrator");
-        System.out.println("3) Traveler");
-
-
-//        handleMainMenuResponse();
-        handleMainMenuResponse(userInput);
-        userInput.close();
-    }
-
-    private void handleMainMenuResponse(Scanner scan) {
-//    private void handleMainMenuResponse() {
-//        Scanner userInput = new Scanner(System.in);
-//        String inputCommands;
         verifyUserInput(scan);
-//        verifyUserInput();
-//        Integer x = verifyUserInput();
 
-//        if (userInput.hasNextLine()) {
-//            inputCommands = userInput.nextLine();
-//            try {
-//                x = Integer.parseInt(inputCommands);
-//            } catch (NumberFormatException e) {
-//                System.out.println("Please make a valid selection");
-//                return 0;
-//            }finally {
-//                userInput.close();
-//            }
 
         switch (this.x) {
             case 1: {
-                employeeMenuOne();
+               menu.employeeMenuOne();
                 break;
             }
             case 2: {
-                adminMenuOne();
+                menu.adminMenuOne();
                 break;
             }
             case 3: {
-                travelerMemberShipMenu();
+                menu.travelerMemberShipMenu();
                 break;
             }
             default:
 //                    System.out.println("Please make a valid selection");
 //                    System.out.println();
-                System.out.println(x);
+//                System.out.println(x);
 
 
-                mainMenu();
+                menu.mainMenu();
         }
-
-//            if (x > 0 && x <= 3) {
-//                System.out.println("debug" + x);
-//                return x;
-//            } else {
-//                System.out.println("Please make a valid selection");
-//                return 0;
-//            }
-//        }
-//        return x;
-    }
-
-    private void travelerMemberShipMenu() {
-        Scanner userInput = new Scanner(System.in);
-        System.out.println("Enter your Membership Number:");
-
-        if(handletravelerMemberShipMenuInput(userInput)){
-            travelerMenuOne();
-        }
-        else{
-            System.out.println("That is not a valid membership number. Returning to the Main Menu");
-            mainMenu();
-        }
-        
-        userInput.close();
 
     }
 
-    private void travelerMenuOne() {
-        System.out.println("\n1)\tBook a Ticket\n" +
-                "2)\tCancel an Upcoming Trip\n" +
-                "3)\tQuit to Previous (should take you to menu MAIN)\n");
+    public void verifyUserInput(Scanner userInput) {
+        String inputCommands;
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            try {
+                x = Integer.parseInt(inputCommands);
+            } catch (NumberFormatException e) {
+                x = 0;
+            } finally {
+//                userInput.close();
+            }
+
+        }
     }
 
     public boolean handletravelerMemberShipMenuInput(Scanner userInput) {
@@ -110,7 +66,7 @@ public class MenuSystem {
 
 
 //        String getValidMemberShipnums = "SELECT utopia.user.id FROM utopia.user;";
-       String getValidMemberShipnums = "SELECT utopia.user.id ,utopia.user.given_name , utopia.user.family_name FROM utopia.user;";
+        String getValidMemberShipnums = "SELECT utopia.user.id ,utopia.user.given_name , utopia.user.family_name FROM utopia.user;";
         try {
             membershipNums = dbc.connSelect(getValidMemberShipnums);
         } catch (SQLException throwables) {
@@ -124,154 +80,57 @@ public class MenuSystem {
             }
 
         }
-
-
         return match;
     }
 
-    private void adminMenuOne() {
-        Scanner userInput = new Scanner(System.in);
-        System.out.println("1) Add/Update/Delete/Read Flights");
-        System.out.println("2) Add/Update/Delete/Read Seats");
-        System.out.println("3) Add/Update/Delete/Read Tickets and Passengers");
-        System.out.println("4) Add/Update/Delete/Read Airports");
-        System.out.println("5) Add/Update/Delete/Read Travelers");
-        System.out.println("6) Add/Update/Delete/Read Employees");
-        System.out.println("7) Over-ride Trip Cancellation for a ticket.");
-        userInput.close();
-    }
-
-    private void employeeMenuOne() {
-        Scanner userInput = new Scanner(System.in);
-        System.out.println("1)Enter Flights You Mangage");
-        System.out.println("2) Quit to previous");
-        handleEmployeeMenuOneResponse(userInput);
-        userInput.close();
-    }
-
-    private void handleEmployeeMenuOneResponse(Scanner userInput) {
+    public void handleEmployeeMenuOneResponse(Scanner userInput) {
         verifyUserInput(userInput);
 
         switch (this.x) {
             case 1: {
                 this.x = 0;
                 try {
-                    employeeMenuTwo();
+                   menu.employeeMenuTwo();
                 } catch (SQLException throwables) {
                     System.out.println("Oops something went wrong... now returning to Main Menu");
                     this.x = 0;
-                    mainMenu();
+                    menu.mainMenu();
                 }
 
                 break;
             }
             case 2: {
-                mainMenu();
+                menu.mainMenu();
                 break;
             }
             default:
                 System.out.println("Invalid selection... now returning to Main Menu");
                 this.x = 0;
-                mainMenu();
+                menu.mainMenu();
         }
     }
 
-    private void employeeMenuTwo() throws SQLException {
-        Scanner userInput = new Scanner(System.in);
-        ArrayList<ArrayList<String>> one = new ArrayList<ArrayList<String>>();
-        ArrayList<ArrayList<String>> two = new ArrayList<ArrayList<String>>();
-        System.out.println("Please choose a flight:");
-
-        DbConnect dbc = new DbConnect();
-//        String sql1 = "SELECT UTOPIA.ROUTE.origin_id, UTOPIA.AIRPORT.city" +
-//                " FROM UTOPIA.FLIGHT" +
-//                " INNER JOIN  UTOPIA.ROUTE ON ROUTE.id=UTOPIA.FLIGHT.route_id" +
-//                " INNER JOIN  UTOPIA.AIRPORT ON UTOPIA.AIRPORT.iata_id=UTOPIA.ROUTE.origin_id" +
-//                " LIMIT 10;";
-
-        String sql1 = "SELECT UTOPIA.FLIGHT.id, UTOPIA.ROUTE.origin_id, UTOPIA.AIRPORT.city" +
-                " FROM UTOPIA.FLIGHT" +
-                " INNER JOIN  UTOPIA.ROUTE ON ROUTE.id=UTOPIA.FLIGHT.route_id" +
-                " INNER JOIN  UTOPIA.AIRPORT ON UTOPIA.AIRPORT.iata_id=UTOPIA.ROUTE.origin_id" +
-                " LIMIT 10;";
-
-        one = dbc.connSelect(sql1);
-
-//        String sql2 = "SELECT UTOPIA.ROUTE.destination_id, UTOPIA.AIRPORT.city" +
-//                " FROM UTOPIA.FLIGHT" +
-//                " INNER JOIN  UTOPIA.ROUTE ON ROUTE.id=UTOPIA.FLIGHT.route_id" +
-//                " INNER JOIN  UTOPIA.AIRPORT ON UTOPIA.AIRPORT.iata_id=UTOPIA.ROUTE.destination_id" +
-//                " LIMIT 10;";
-        StringBuilder sql2 = new StringBuilder("SELECT UTOPIA.ROUTE.destination_id, UTOPIA.AIRPORT.city" +
-                " FROM UTOPIA.FLIGHT" +
-                " INNER JOIN  UTOPIA.ROUTE ON ROUTE.id=UTOPIA.FLIGHT.route_id" +
-                " INNER JOIN  UTOPIA.AIRPORT ON UTOPIA.AIRPORT.iata_id=UTOPIA.ROUTE.destination_id" +
-                " WHERE UTOPIA.FLIGHT.ID IN ( ");
-
-        for (ArrayList<String> strings : one) {
-            sql2.append(strings.get(0) + ",");
-        }
-        sql2.replace(sql2.length() - 1, sql2.length(), ")");
-
-
-        two = dbc.connSelect(sql2.toString());
-
-        for (int i = 0; i < one.size(); i++) {
-            one.get(i).add(two.get(i).get(0));
-            one.get(i).add(two.get(i).get(1));
-        }
-
-        for (ArrayList<String> strings : one) {
-            System.out.println(counter + ") " + strings.get(1) +
-                    "," + strings.get(2) + " → " +
-                    strings.get(3) + "," + strings.get(4));
-            counter++;
-        }
-
-        System.out.println(counter + ") " + "Quit to previous");
-
-        handleEmployeeMenuTwoResponse(userInput, one);
-
-//        SELECT *, TIMESTAMP(UTOPIA.FLIGHT.DEPARTURE_TIME + UTOPIA.FLIGHT.TRAVEL_TIME_ESTIMATE) AS ARRIVALTIME FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID=123
-
-        userInput.close();
-    }
-
-//    private Integer debughandleEmployeeMenuTwoResponse = 0;
-
-    private void handleEmployeeMenuTwoResponse(Scanner userInput, ArrayList<ArrayList<String>> one) {
+    public void handleEmployeeMenuTwoResponse(Scanner userInput, ArrayList<ArrayList<String>> one) {
         verifyUserInput(userInput);
 //        debughandleEmployeeMenuTwoResponse++;
 
         if (this.x > this.counter || this.x == 0) {
             System.out.println("Invalid selection... now returning to previous menu");
             this.counter = 1;
-            employeeMenuOne();
+            menu.employeeMenuOne();
         }
         if (this.x != this.counter) {
-            employeeMenuThree(one.get(x - 1));
-            this.counter =1;
+            menu.employeeMenuThree(one.get(x - 1));
+
         } else {
             this.counter = 1;
-            employeeMenuOne();
+            menu.employeeMenuOne();
         }
 
     }
 
-    private void employeeMenuThree(ArrayList<String> one) {
-        Scanner userInput = new Scanner(System.in);
-
-        System.out.println("1) View more details about the flight");
-        System.out.println("2) Update the details of the Flight");
-        System.out.println("3) Add Seats to Flight");
-        System.out.println("4) Quit to previous");
-
-        handleEmployeeMenuThreeResponse(userInput, one);
-
-        userInput.close();
-    }
-
-    private void handleEmployeeMenuThreeResponse(Scanner userInput, ArrayList<String> one) {
+    //need to Refactor, its displaying Menu stuff
+    public void handleEmployeeMenuThreeResponse(Scanner userInput, ArrayList<String> one) {
         verifyUserInput(userInput);
 
 
@@ -328,7 +187,7 @@ public class MenuSystem {
 //                System.out.println("debug X = " + this.x);
 
                 if (userInput.hasNextLine()){
-                    employeeMenuThree(one);
+                    menu.employeeMenuThree(one);
                 }
 
                 break;
@@ -343,23 +202,19 @@ public class MenuSystem {
                 System.out.println("\n");
 
                 handleEmployeeMenuThreeResponseTwo(userInput,one);
-                
+
 
                 break;
             }
             case 3: {
                 System.out.println("Pardon our dust, feature not implemented");
-                this.x = 0;
-                this.counter = 1;
-                mainMenu();
+                menu.mainMenu();
 
                 break;
             }
             case 4: {
                 try {
-                    this.x =0;
-                    this.counter =1;
-                    employeeMenuTwo();
+                    menu.employeeMenuTwo();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -368,12 +223,13 @@ public class MenuSystem {
             default:
                 System.out.println("Invalid selection... now returning to Main Menu");
                 this.x = 0;
-                mainMenu();
+                menu.mainMenu();
         }
 
 
     }
 
+    //need to Refactor, its displaying Menu stuff
     private void handleEmployeeMenuThreeResponseTwo(Scanner userInput, ArrayList<String> one) {
         String inputCommands;
         Integer x = 0;
@@ -462,7 +318,7 @@ public class MenuSystem {
         Integer routeGenKey = 0;
         if ( originSuccess > 0 && destSuccess > 0){
             String sql = "INSERT INTO UTOPIA.ROUTE VALUES (NULL ,'"+ origin.getAirportCode()
-            + "','"+dest.getAirportCode() +"');";
+                    + "','"+dest.getAirportCode() +"');";
             try {
                 routeGenKey = dbc.insUpconn(sql,true);
             } catch (SQLException throwables) {
@@ -476,7 +332,7 @@ public class MenuSystem {
         //update the origin of a route
         if (originSuccess > 0 && destSuccess <= 0){
             ArrayList<ArrayList<String>> temp = new ArrayList<>();
-           String getRouteID="SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = "+ one.get(0) +";";
+            String getRouteID="SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = "+ one.get(0) +";";
             try {
                 temp = dbc.connSelect(getRouteID);
             } catch (SQLException throwables) {
@@ -537,31 +393,9 @@ public class MenuSystem {
         }
 
 
-        employeeMenuThree(one);
+        menu.employeeMenuThree(one);
 
 
     }
-
-
-    private void verifyUserInput(Scanner userInput) {
-//    private void verifyUserInput() {
-//        Scanner userInput = new Scanner(System.in);
-        String inputCommands;
-//        Integer x = 0;
-        if (userInput.hasNextLine()) {
-            inputCommands = userInput.nextLine();
-            try {
-                x = Integer.parseInt(inputCommands);
-            } catch (NumberFormatException e) {
-                x = 0;
-            } finally {
-//                userInput.close();
-            }
-
-        }
-    }
-
 
 }
-
-

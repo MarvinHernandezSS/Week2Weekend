@@ -4,8 +4,9 @@ public class RunMenuSystem {
     public static void main(String[] args) {
         MenuSystem menu = new MenuSystem();
 
+        SwappableMenuSystem menu2 = new SwappableMenuSystem();
 
-        menu.mainMenu();
+        menu2.mainMenu();
 
 
 

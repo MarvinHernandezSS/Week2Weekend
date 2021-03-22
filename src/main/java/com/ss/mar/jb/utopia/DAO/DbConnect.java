@@ -18,7 +18,7 @@ public class DbConnect  {
 
         Connection conn = DriverManager.getConnection(url,username,password);
 
-        //Register th driver
+        //Register the driver
         try {
             Class.forName(driver);
             //Create Connection
@@ -31,6 +31,13 @@ public class DbConnect  {
             //dynamically get the columncount
             ResultSet rs = pstmt.executeQuery();
             int size= rs.getMetaData().getColumnCount();
+
+            //trying to add column names
+            ArrayList<String> columnNames = new ArrayList<>();
+            for (int i = 1; i <= size; i++) {
+                columnNames.add(rs.getMetaData().getColumnLabel(i));
+            }
+            results.add(columnNames);
 
             while (rs.next())
             {
@@ -69,7 +76,7 @@ public class DbConnect  {
                 MenuSystem M = new MenuSystem();
                 System.out.println("There was an issue with your request." +
                         " Please check your input. Returning to the Main Menu\n\n\n");
-                System.out.println(sqlInsertorUpdate + "\n");
+//                System.out.println(sqlInsertorUpdate + "\n");
                 M.mainMenu();
 //            System.out.println("block it");
             }
@@ -89,7 +96,8 @@ public class DbConnect  {
             }
 
         }
-
+        //need to check below to work on rolling back commits
+//        https://www.tutorialspoint.com/jdbc/commit-rollback.htm
 //        try {
 //            Class.forName(driver);
 //

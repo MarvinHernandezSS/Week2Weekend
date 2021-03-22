@@ -9,13 +9,14 @@ import java.util.Scanner;
 
 public class SwappableMenuSystem {
 
-    HandleFrontEndResponse handle = new HandleFrontEndResponse();
+//    HandleFrontEndResponse handle = new HandleFrontEndResponse();
 //    private Integer x = 0;
 //    private String a;
     private Integer counter = 1;
 
     public void mainMenu() {
         Scanner userInput = new Scanner(System.in);
+            HandleFrontEndResponse handle = new HandleFrontEndResponse();
 
         System.out.println("Welcome to the Utopia Airlines Management System. " +
                 "Which category of a user are you?");
@@ -30,6 +31,8 @@ public class SwappableMenuSystem {
 
     public void travelerMemberShipMenu() {
         Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+
         System.out.println("Enter your Membership Number:");
 
         if(handle.handletravelerMemberShipMenuInput(userInput)){
@@ -43,13 +46,18 @@ public class SwappableMenuSystem {
     }
 
     private void travelerMenuOne() {
-        System.out.println("\n1)\tBook a Ticket\n" +
-                "2)\tCancel an Upcoming Trip\n" +
-                "3)\tQuit to Previous (should take you to menu MAIN)\n");
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+        System.out.println("\n1) Book a Ticket\n" +
+                "2) Cancel an Upcoming Trip\n" +
+                "3) Quit to Previous");
+        handle.handleTravelMenuOneResponse(userInput);
+
     }
 
     public void adminMenuOne() {
         Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
         System.out.println("1) Add/Update/Delete/Read Flights");
         System.out.println("2) Add/Update/Delete/Read Seats");
         System.out.println("3) Add/Update/Delete/Read Tickets and Passengers");
@@ -57,11 +65,15 @@ public class SwappableMenuSystem {
         System.out.println("5) Add/Update/Delete/Read Travelers");
         System.out.println("6) Add/Update/Delete/Read Employees");
         System.out.println("7) Over-ride Trip Cancellation for a ticket.");
+
+        handle.handleAdminMenuOne(userInput);
+
         userInput.close();
     }
 
     public void employeeMenuOne() {
         Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
         System.out.println("1)Enter Flights You Mangage");
         System.out.println("2) Quit to previous");
         handle.handleEmployeeMenuOneResponse(userInput);
@@ -71,6 +83,7 @@ public class SwappableMenuSystem {
 //Need to create a new handler for this, menu should only be doing frontend diplaying
     public void employeeMenuTwo() throws SQLException {
         Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
         ArrayList<ArrayList<String>> one = new ArrayList<ArrayList<String>>();
         ArrayList<ArrayList<String>> two = new ArrayList<ArrayList<String>>();
         System.out.println("Please choose a flight:");
@@ -123,7 +136,7 @@ public class SwappableMenuSystem {
 
         System.out.println(counter + ") " + "Quit to previous");
 
-        handle.handleEmployeeMenuTwoResponse(userInput, one);
+        handle.handleEmployeeMenuTwoResponse(userInput, one, counter);
 
 //        SELECT *, TIMESTAMP(UTOPIA.FLIGHT.DEPARTURE_TIME + UTOPIA.FLIGHT.TRAVEL_TIME_ESTIMATE) AS ARRIVALTIME FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID=123
 
@@ -135,6 +148,7 @@ public class SwappableMenuSystem {
 
     public void employeeMenuThree(ArrayList<String> one) {
         Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
 
         System.out.println("1) View more details about the flight");
         System.out.println("2) Update the details of the Flight");
@@ -147,10 +161,96 @@ public class SwappableMenuSystem {
     }
 
 
+    public void travelerMenuOneOptionOneBookTicket() {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+
+        //Present below options through select statement
+/*        Pick the Flight you want to book a ticket for:
+        1)	LAX, Los Angeles → JFK, New York
+        2)	…...
+        3)	…...
+        4)	…...
+        5)	Quit to previous (should take you menu TRAV1)*/
 
 
+        handle.handleTravelMenuOneOptionOneResponseBook(userInput);
 
+    }
 
+    public void travelerMenuOneOptionTwoCancelTrip() {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+
+        //Present below options through select statement
+/*        Pick the Flight you want to CANCEL a ticket for:
+        1)	LAX, Los Angeles → JFK, New York
+        2)	…...
+        3)	…...
+        4)	…...
+        5)	Quit to previous (should take you menu TRAV1)*/
+
+        handle.handleTravelMenuOneOptionTwoResponseCancel(userInput);
+    }
+
+    public void seatClass() {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+
+        System.out.println("1)\tView Flight Details\n" +
+                "2) First\n" +
+                "3) Business\n" +
+                "4) Economy\n" +
+                "5) Quit to cancel operation (should take you menu TRAV1)\n");
+
+        handle.seatClassResponse(userInput);
+
+    }
+
+    public void addUpdateDeleteReadChoice(String choice) {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+/*        Select action for $choice
+          1 Add
+          2 Update
+          3 Delete
+          4 Read
+*/
+        handle.AddUpdateDeleteReadChoiceResponse(userInput, choice);
+
+    }
+
+    public void read(String choice) {
+        //have a select statement for each of
+        // the 7 options and pass that to
+        // DbConnect.connSelect and then loop
+        // over the View and display results
+
+        //after results handle input to return to previous or main menu
+    }
+
+    public void delete(String choice) {
+        //have a delete statement for each of
+        // the 7 options and pass that to
+        // DbConnect.insUpconn and then
+        // confirm record removal for the id# provided
+
+        //after results handle input to return to previous or main menu
+    }
+
+    public void add(String choice) {
+        //make a switch statement based off of choice 7 options
+        //and make a separate menu for the user to interact with
+        //based off values to enter
+
+    }
+
+    public void update(String choice) {
+        //make a switch statement based off of choice 7 options
+        //and make a separate menu for the user to interact with
+        //based off values to enter
+
+    }
 }
 
 

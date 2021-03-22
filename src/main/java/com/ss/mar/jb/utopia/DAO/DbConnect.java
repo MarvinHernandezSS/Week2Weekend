@@ -69,7 +69,7 @@ public class DbConnect  {
                 MenuSystem M = new MenuSystem();
                 System.out.println("There was an issue with your request." +
                         " Please check your input. Returning to the Main Menu\n\n\n");
-                System.out.println(sqlInsertorUpdate + "\n");
+//                System.out.println(sqlInsertorUpdate + "\n");
                 M.mainMenu();
 //            System.out.println("block it");
             }

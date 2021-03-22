@@ -12,9 +12,10 @@ public class HandleFrontEndResponse {
 
     private Integer x = 0;
     private Integer counter = 1;
-    SwappableMenuSystem menu = new SwappableMenuSystem();
+//    SwappableMenuSystem menu = new SwappableMenuSystem();
 
     public void handleMainMenuResponse(Scanner scan) {
+    SwappableMenuSystem menu = new SwappableMenuSystem();
 
         verifyUserInput(scan);
 
@@ -85,6 +86,8 @@ public class HandleFrontEndResponse {
 
     public void handleEmployeeMenuOneResponse(Scanner userInput) {
         verifyUserInput(userInput);
+            SwappableMenuSystem menu = new SwappableMenuSystem();
+
 
         switch (this.x) {
             case 1: {
@@ -110,8 +113,11 @@ public class HandleFrontEndResponse {
         }
     }
 
-    public void handleEmployeeMenuTwoResponse(Scanner userInput, ArrayList<ArrayList<String>> one) {
+    public void handleEmployeeMenuTwoResponse(Scanner userInput, ArrayList<ArrayList<String>> one, Integer counter) {
         verifyUserInput(userInput);
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        this.counter = counter;
+
 //        debughandleEmployeeMenuTwoResponse++;
 
         if (this.x > this.counter || this.x == 0) {
@@ -132,6 +138,7 @@ public class HandleFrontEndResponse {
     //need to Refactor, its displaying Menu stuff
     public void handleEmployeeMenuThreeResponse(Scanner userInput, ArrayList<String> one) {
         verifyUserInput(userInput);
+        SwappableMenuSystem menu = new SwappableMenuSystem();
 
 
         switch (this.x) {
@@ -207,7 +214,8 @@ public class HandleFrontEndResponse {
                 break;
             }
             case 3: {
-                System.out.println("Pardon our dust, feature not implemented");
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
                 menu.mainMenu();
 
                 break;
@@ -238,6 +246,8 @@ public class HandleFrontEndResponse {
         StringBuilder departTime = new StringBuilder();
         StringBuilder arriveTime = new StringBuilder();
         DbConnect dbc = new DbConnect();
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+
 
 
         if (userInput.hasNextLine()){
@@ -284,10 +294,10 @@ public class HandleFrontEndResponse {
 
 
 
-        System.out.println("debug " + origin.getAirportCode() + " " + origin.getCity());
-        System.out.println("debug " + dest.getAirportCode() + " " + dest.getCity());
-        System.out.println("debug " + departTime.toString());
-        System.out.println("debug " + arriveTime.toString());
+//        System.out.println("debug " + origin.getAirportCode() + " " + origin.getCity());
+//        System.out.println("debug " + dest.getAirportCode() + " " + dest.getCity());
+//        System.out.println("debug " + departTime.toString());
+//        System.out.println("debug " + arriveTime.toString());
 
         String sqlInsertNewOriginIntoAirport1 = "INSERT INTO utopia.airport VALUES ('"
                 + origin.getAirportCode() + "', '" + origin.getCity() + "');";
@@ -326,7 +336,7 @@ public class HandleFrontEndResponse {
             }
 //            System.out.println(sql);
         }
-        System.out.println("debug routeGenKey: " + routeGenKey);
+//        System.out.println("debug routeGenKey: " + routeGenKey);
 
 
         //update the origin of a route
@@ -394,6 +404,169 @@ public class HandleFrontEndResponse {
 
 
         menu.employeeMenuThree(one);
+
+
+    }
+
+    public void handleTravelMenuOneResponse(Scanner userInput) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+
+
+        switch (this.x) {
+            case 1: {
+                //Book Ticket
+//                menu.travelerMenuOneOptionOneBookTicket();
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+                break;
+            }
+            case 2: {
+                //Cancel Trip
+//                menu.travelerMenuOneOptionTwoCancelTrip();
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+                break;
+            }
+            case 3: {
+                System.out.println("\nReturning to Main menu......\n\n");
+                menu.mainMenu();
+                break;
+            }
+            default:
+                System.out.println("Invalid Selection.\nReturning to Main menu......\n\n");
+                menu.mainMenu();
+        }
+    }
+
+    public void handleTravelMenuOneOptionOneResponseBook(Scanner userInput) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+
+        //input logic to handle user flight choice probably similar to
+        // employee menu2 and then send them to the menu
+        //Seat Class Menu
+
+        menu.seatClass();
+
+    }
+
+    public void seatClassResponse(Scanner userInput) {
+
+//        Option 1 should retrieve flight details for the Flight the user selected.
+//        Then add entry into your tickets table.
+        //2,3,4 probably update/insert booking and related tables
+
+        //include a flag for book/cancel operations so a delete
+
+    }
+
+    public void handleTravelMenuOneOptionTwoResponseCancel(Scanner userInput) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+
+        //input logic to handle user flight choice probably similar to
+        // employee menu2 and then send them to the menu
+        //Seat Class Menu
+
+        //Try and reuse the seatClass and add a flag for cancel vs book
+        menu.seatClass();
+
+    }
+
+    public void handleAdminMenuOne(Scanner userInput) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+        String Choice;
+
+        switch (this.x) {
+            case 1: {
+//                Choice="Flights";
+//                menu.addUpdateDeleteReadChoice(Choice);
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 2: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 3: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 4: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 5: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 6: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 7: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to Main menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            default:
+                System.out.println("Invalid Selection.\nReturning to Main menu......\n\n");
+                menu.mainMenu();
+        }
+
+
+
+    }
+
+    public void AddUpdateDeleteReadChoiceResponse(Scanner userInput, String choice) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+
+        switch (this.x) {
+            case 1: {
+                menu.add(choice);
+                break;
+            }
+            case 2: {
+                menu.update(choice);
+                break;
+            }
+            case 3: {
+                menu.delete(choice);
+                break;
+            }
+            case 4: {
+                menu.read(choice);
+
+                break;
+            }
+            default:
+                menu.mainMenu();
+        }
 
 
     }

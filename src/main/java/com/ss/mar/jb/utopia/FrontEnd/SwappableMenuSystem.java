@@ -480,30 +480,33 @@ public class SwappableMenuSystem {
                 Airport origin = new Airport();
 
                 System.out.println("Please enter new Airport code:");
-                if (userInput.hasNextLine()){
-                    inputCommands=userInput.nextLine();
-                    if (inputCommands != "N/A"){origin.setAirportCode(inputCommands); }
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (inputCommands != "N/A") {
+                        origin.setAirportCode(inputCommands);
+                    }
                 }
                 System.out.println("Please enter new City :");
-                if (userInput.hasNextLine()){
-                    inputCommands=userInput.nextLine();
-                    if (inputCommands != "N/A"){ origin.setCity(inputCommands); }
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (inputCommands != "N/A") {
+                        origin.setCity(inputCommands);
+                    }
                 }
 
                 String sql = "INSERT INTO `utopia`.`airport` " +
                         "(`iata_id`, `city`) VALUES (" +
-                        "'"+origin.getAirportCode() +"', '"+ origin.getCity() +"');";
+                        "'" + origin.getAirportCode() + "', '" + origin.getCity() + "');";
 
 //                System.out.println("debug : " + sql);
                 Integer success = 0;
-                if (origin.getAirportCode() !=null && origin.getCity() != null) {
+                if (origin.getAirportCode() != null && origin.getCity() != null) {
                     try {
                         success = dbc.insUpconn(sql, false);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                }
-                else{
+                } else {
                     System.out.println("Please check your input and try again.\n");
                 }
 
@@ -576,11 +579,11 @@ public class SwappableMenuSystem {
 
                 Integer passengerSuccess = 0;
 
-                    try {
-                        passengerSuccess = dbc.insUpconn(insertPassenger, false);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                try {
+                    passengerSuccess = dbc.insUpconn(insertPassenger, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
                 if (passengerSuccess > 0) {
                     System.out.println("The record was successfully inserted.");
@@ -648,28 +651,28 @@ public class SwappableMenuSystem {
                 String sql = "INSERT INTO `utopia`.`user` " +
                         "(`role_id`, `given_name`, `family_name`," +
                         " `username`, `email`, `password`, `phone`) " +
-                        "VALUES ('3', '"+ given_name +"', '"+ family_name +"', '"+ username +"', '" +
-                        email + "', '"+ password +"', '"+ phone +"');";
+                        "VALUES ('3', '" + given_name + "', '" + family_name + "', '" + username + "', '" +
+                        email + "', '" + password + "', '" + phone + "');";
 
 //                System.out.println("debug : " + sql);
                 Integer success = 0;
 
-                if (given_name.equals("")||family_name.equals("")||
-                        username.equals("")||email.equals("")||
-                        password.equals("")||phone.equals(""))
-                {
+                if (given_name.equals("") || family_name.equals("") ||
+                        username.equals("") || email.equals("") ||
+                        password.equals("") || phone.equals("")) {
                     System.out.println("Please recheck your input for any missing paramerters.");
-                }
-                else {
+                } else {
                     try {
                         success = dbc.insUpconn(sql, false);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                 }
+
                 if (success > 0) {
                     System.out.println("The record was successfully inserted.");
                 }
+
 
                 break;
             }

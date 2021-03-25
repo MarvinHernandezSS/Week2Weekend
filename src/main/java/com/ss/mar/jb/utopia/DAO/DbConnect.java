@@ -1,6 +1,6 @@
 package com.ss.mar.jb.utopia.DAO;
 
-import com.ss.mar.jb.utopia.FrontEnd.MenuSystem;
+import com.ss.mar.jb.utopia.FrontEnd.SwappableMenuSystem;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class DbConnect  {
                 genKey = pstmt.executeUpdate();
 
             } catch (ClassNotFoundException | SQLException e) {
-                MenuSystem M = new MenuSystem();
+                SwappableMenuSystem M = new SwappableMenuSystem();
                 System.out.println("There was an issue with your request." +
                         " Please check your input. Returning to the Main Menu\n\n\n");
 //                System.out.println(sqlInsertorUpdate + "\n");

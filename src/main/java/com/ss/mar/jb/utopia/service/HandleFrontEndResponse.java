@@ -74,12 +74,15 @@ public class HandleFrontEndResponse {
             throwables.printStackTrace();
         }
 
+        Integer columncheck = 0;
         for (ArrayList<String> membershipNum : membershipNums) {
-            if (this.x == Integer.parseInt(membershipNum.get(0))){
-                match = true;
-                break;
+            if(columncheck > 0) {
+                if (this.x == Integer.parseInt(membershipNum.get(0))) {
+                    match = true;
+                    break;
+                }
             }
-
+            columncheck++;
         }
         return match;
     }
@@ -171,17 +174,17 @@ public class HandleFrontEndResponse {
                 }
 
                 //rounding down to not to exceed remaining seating capacity
-                Integer first = (int) Math.floor(Integer.parseInt(threeOne.get(0).get(2)) * .15);
-                Integer business = (int) Math.floor(Integer.parseInt(threeOne.get(0).get(2)) * .25);
-                Integer economy = (int) Math.floor(Integer.parseInt(threeOne.get(0).get(2)) * .60);
+                Integer first = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .15);
+                Integer business = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .25);
+                Integer economy = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .60);
 
                 System.out.println("Departure Airport: " + one.get(1) +
                         " | " + "Arrival Airport: " + one.get(3) + " |");
 
-                String[] temp1 = threeOne.get(0).get(0).split(" ");
+                String[] temp1 = threeOne.get(1).get(0).split(" ");
                 System.out.println("Departure Date: " + temp1[0] + " | " + "Departure Time: " +
                         temp1[1].substring(0, temp1[1].length() - 2) + " |");
-                String[] temp2 = threeOne.get(0).get(1).split(" ");
+                String[] temp2 = threeOne.get(1).get(1).split(" ");
                 System.out.println("Arrival Date: " + temp2[0] + " | " + "Arrival Time: " +
                         temp2[1].substring(0, temp2[1].length() - 2) + " |\n");
 
@@ -573,7 +576,7 @@ public class HandleFrontEndResponse {
                         try {
                             readResults =
                                     dbc.connSelect(
-                                            "SELECT utopia.passenger.GIVEN_NAME, " +
+                                            "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME, " +
                                                     "utopia.passenger.FAMILY_NAME, " +
                                                     "utopia.booking.confirmation_code FROM " +
                                                     "utopia.passenger INNER JOIN utopia.booking on " +
@@ -632,7 +635,7 @@ public class HandleFrontEndResponse {
 
     }
 
-    public void handleReadResponse(Scanner userInput) {
+    public void handleReadUpdateResponse(Scanner userInput) {
 
         SwappableMenuSystem menu = new SwappableMenuSystem();
         verifyUserInput(userInput);

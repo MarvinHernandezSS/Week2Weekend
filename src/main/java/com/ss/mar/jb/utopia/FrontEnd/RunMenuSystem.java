@@ -6,7 +6,12 @@ public class RunMenuSystem {
 
         SwappableMenuSystem menu2 = new SwappableMenuSystem();
 
-        menu2.mainMenu();
+//        try {
+            menu2.mainMenu();
+//        } catch (Exception e){
+//            menu2.mainMenu();
+//        }
+
 
 
 

@@ -52,7 +52,7 @@ public class SwappableMenuSystem {
                 "2) Cancel an Upcoming Trip\n" +
                 "3) Quit to Previous");
         handle.handleTravelMenuOneResponse(userInput);
-
+        userInput.close();
     }
 
     public void adminMenuOne() {
@@ -180,7 +180,7 @@ public class SwappableMenuSystem {
 
 
         handle.handleTravelMenuOneOptionOneResponseBook(userInput);
-
+        userInput.close();
     }
 
     public void travelerMenuOneOptionTwoCancelTrip() {
@@ -196,6 +196,7 @@ public class SwappableMenuSystem {
         5)	Quit to previous (should take you menu TRAV1)*/
 
         handle.handleTravelMenuOneOptionTwoResponseCancel(userInput);
+        userInput.close();
     }
 
     public void seatClass() {
@@ -209,7 +210,7 @@ public class SwappableMenuSystem {
                 "5) Quit to cancel operation (should take you menu TRAV1)\n");
 
         handle.seatClassResponse(userInput);
-
+        userInput.close();
     }
 
     public void addUpdateDeleteReadChoice(String choice) {
@@ -224,6 +225,7 @@ public class SwappableMenuSystem {
                 "4 Read");
 
         handle.AddUpdateDeleteReadChoiceResponse(userInput, choice);
+        userInput.close();
 
     }
 
@@ -252,16 +254,204 @@ public class SwappableMenuSystem {
         System.out.println("\nPress 1) to return to the main menu");
 
         //after results handle input to return to previous or main menu
-        handle.handleReadResponse(userInput);
+        handle.handleReadUpdateResponse(userInput);
+        userInput.close();
     }
 
     public void delete(String choice) {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+        DbConnect dbc = new DbConnect();
         //have a delete statement for each of
         // the 7 options and pass that to
         // DbConnect.insUpconn and then
         // confirm record removal for the id# provided
 
+
+        switch (choice){
+            case "Flights":{
+                String inputCommands;
+                String id = "";
+
+                System.out.println("Please enter the flight id that you wish to delete:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+
+                String sql = "DELETE FROM `utopia`.`flight` WHERE `id`='"+id+"';";
+
+                Integer success = 0;
+
+                try {
+                    success = dbc.insUpconn(sql, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (success > 0) {
+                    System.out.println("The record was successfully deleted.");
+                }
+                else{
+                    System.out.println("Please verify your input and try again\n");
+                }
+
+
+                break;
+            }
+            case "Seats":{
+                System.out.println("Not yet implemented");
+                break;
+            }
+            case "Tickets and Passengers":{
+                String inputCommands;
+                String id = "";
+
+                System.out.println("Please enter the Tickets and Passengers id that you wish to delete:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+
+                String deleteBooking = "DELETE FROM `utopia`.`booking` WHERE `id`='"+id+"';";
+                String deletePassenger = "DELETE FROM `utopia`.`passenger` WHERE `booking_id`='"+id+"';";
+
+                System.out.println("debug " + deleteBooking);
+                System.out.println("debug " + deletePassenger);
+
+                Integer bookingSuccess = 0;
+
+                try {
+                    bookingSuccess = dbc.insUpconn(deleteBooking, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+//                Integer passengerSuccess = 0;
+//
+//                if (bookingSuccess > 0) {
+//                    try {
+//                        passengerSuccess = dbc.insUpconn(deletePassenger, false);
+//                    } catch (SQLException throwables) {
+//                        throwables.printStackTrace();
+//                    }
+//                }
+
+//                if (bookingSuccess > 0 && passengerSuccess > 0) {
+                if (bookingSuccess > 0) {
+                    System.out.println("The record was successfully deleted.");
+                }
+                else{
+                    System.out.println("Please verify your input and try again\n");
+                }
+
+                break;
+            }
+            case "Airports":{
+                String inputCommands;
+                Airport origin = new Airport();
+
+                System.out.println("Please enter the Airport code that you wish to delete:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        origin.setAirportCode(inputCommands);
+                    }
+                }
+
+                String sql = "DELETE FROM `utopia`.`airport` WHERE `iata_id`='"+origin.getAirportCode()+"';";
+
+                Integer success = 0;
+
+                try {
+                    success = dbc.insUpconn(sql, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (success > 0) {
+                    System.out.println("The record was successfully deleted.");
+                }
+                else{
+                    System.out.println("Please verify your input and try again\n");
+                }
+
+                break;
+            }
+            case "Travelers":{
+                String inputCommands;
+                String id = "";
+
+                System.out.println("Please enter the traveler id that you wish to delete:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+
+                String sql = "DELETE FROM `utopia`.`passenger` WHERE `id`='"+id+"';";
+
+                Integer success = 0;
+
+//                System.out.println("debug " + sql);
+
+                try {
+                    success = dbc.insUpconn(sql, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (success > 0) {
+                    System.out.println("The record was successfully deleted.");
+                }
+                else{
+                    System.out.println("Please verify your input and try again\n");
+                }
+
+                break;
+            }
+            case "Employees":{
+                String inputCommands;
+                String id = "";
+
+                System.out.println("Please enter the employee id that you wish to delete:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+
+                String sql = "DELETE FROM `utopia`.`user` WHERE `id`='"+id+"';";
+
+                Integer success = 0;
+
+                try {
+                    success = dbc.insUpconn(sql, false);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (success > 0) {
+                    System.out.println("The record was successfully deleted.");
+                }
+                else{
+                    System.out.println("Please verify your input and try again\n");
+                }
+
+                break;
+            }
+
+            default:
+        }
+        System.out.println("\nPress 1) to return to the main menu");
         //after results handle input to return to previous or main menu
+        handle.handleReadUpdateResponse(userInput);
+        userInput.close();
     }
 
     public void add(String choice) {
@@ -682,15 +872,608 @@ public class SwappableMenuSystem {
         System.out.println("\nPress 1) to return to the main menu");
 
         //after results handle input to return to previous or main menu
-        handle.handleReadResponse(userInput);
-
+        handle.handleReadUpdateResponse(userInput);
+        userInput.close();
     }
 
     public void update(String choice) {
+        Scanner userInput = new Scanner(System.in);
+        HandleFrontEndResponse handle = new HandleFrontEndResponse();
+        DbConnect dbc = new DbConnect();
         //make a switch statement based off of choice 7 options
         //and make a separate menu for the user to interact with
         //based off values to enter
 
+        //ask for PK value,
+        //gonna try stringbuilder to see if i can avoid doing the above
+
+        switch (choice) {
+            case "Flights": {
+                String inputCommands;
+                String id = "";
+                String newID = "";
+                String route_id = "";
+                String airplane_id = "";
+                String seat_price = "";
+                StringBuilder departTime = new StringBuilder();
+                String reserved_seats = "";
+                String travel_time_estimate = "";
+                StringBuilder sql = new StringBuilder("UPDATE `utopia`.`flight` SET ");
+                ArrayList<String> params = new ArrayList<>();
+
+                System.out.println("Please enter the flight id that you wish to update:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+                System.out.println("Please enter a new value for flight id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        newID = inputCommands;
+//                        sql.append(("id`='" + newID + "'"));
+                        params.add("`id`='" + newID + "'");
+                    }
+                }
+                System.out.println("Please enter a different pre-existing value for route id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        route_id = inputCommands;
+//                        sql.append(", `route_id`='" + route_id + "'");
+                        params.add(" `route_id`='" + route_id + "'");
+                    }
+                }
+                System.out.println("Please enter an existing airplane id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        airplane_id = inputCommands;
+//                        sql.append(", `airplane_id`='" + airplane_id + "'");
+                        params.add(" `airplane_id`='" + airplane_id + "'");
+                    }
+                }
+                System.out.println("Please enter a new seat price for this filght or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        seat_price = inputCommands;
+//                        sql.append(", `seat_price`='" + seat_price + "'");
+                        params.add(" `seat_price`='" + seat_price + "'");
+                    }
+                }
+                System.out.println("Please enter a new Departure Date (YYYY-MM-DD) or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        departTime.append(inputCommands);
+                    }
+                }
+                System.out.println("Please enter new Departure Time (HH:MM:SS)or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        departTime.append(" " + inputCommands);
+//                        sql.append(",`departure_time`='" + departTime.toString() + "'");
+                        params.add("`departure_time`='" + departTime.toString() + "'");
+                    }
+                }
+                System.out.println("Please enter a new number of seats that you wish to reserve or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        reserved_seats = inputCommands;
+//                        sql.append(",`reserved_seats`='" + reserved_seats + "'");
+                        params.add("`reserved_seats`='" + reserved_seats + "'");
+                    }
+                }
+                System.out.println("Please enter the new Estimated Travel Time (HH:MM:SS) or N/A for no change::");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        travel_time_estimate = inputCommands;
+//                        sql.append(",`travel_time_estimate`='" + travel_time_estimate + "'");
+                        params.add("`travel_time_estimate`='" + travel_time_estimate + "'");
+                    }
+                }
+                if (params.size() > 0) {
+                    Integer comma = 0;
+                    for (String param : params) {
+                        if (comma == 0) {
+                            sql.append(param);
+                        } else {
+                            sql.append("," + param);
+                        }
+                        comma++;
+                    }
+
+                    sql.append(" WHERE `id`='" + id + "';");
+
+//                    System.out.println("debug : " + sql);
+                    Integer success = 0;
+
+                    try {
+                        success = dbc.insUpconn(sql.toString(), false);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    if (success > 0) {
+                        System.out.println("The record was successfully inserted.");
+                    }
+                } else {
+                    System.out.println("You did not enter any valid input.\n");
+                }
+
+                break;
+            }
+            case "Seats": {
+                System.out.println("Not yet implemented");
+                break;
+            }
+            case "Tickets and Passengers": {
+                //may have to revist this one as two table update can be improved
+                String inputCommands;
+                String id = "";
+                String newID ="";
+                String is_active = "";
+                String confirmation_code = "";
+                String given_name = "";
+                String family_name = "";
+                String dob = "";
+                String gender = "";
+                String address = "";
+                StringBuilder updateBooking = new StringBuilder("UPDATE `utopia`.`booking` SET ");
+                ArrayList<String> bookingParams = new ArrayList<>();
+                StringBuilder updatePassenger = new StringBuilder("UPDATE `utopia`.`passenger` SET ");
+                ArrayList<String> passengerParams = new ArrayList<>();
+
+                System.out.println("Please enter the booking id that you wish to update:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        id = inputCommands;
+                    }
+                }
+                System.out.println("Please enter a new value for booking id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        newID = inputCommands;
+                        bookingParams.add("`id`='" + newID + "'");
+                        passengerParams.add("`booking_id`='" + newID + "'");
+                    }
+                }
+                System.out.println("Please enter a zero or one value for is_active or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        if (inputCommands.equals("0") || inputCommands.equals("1")) {
+                            is_active = inputCommands;
+                        }
+                        bookingParams.add("`is_active`='" + is_active + "'");
+                    }
+                }
+                System.out.println("Please enter a new confirmation_code or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        confirmation_code = inputCommands;
+                        bookingParams.add("`confirmation_code`='" + confirmation_code + "'");
+                    }
+                }
+
+                //Passenger
+                System.out.println("Please enter the first name of the new passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        given_name = inputCommands;
+                        passengerParams.add("`given_name`='" + given_name + "'");
+                    }
+                }
+                System.out.println("Please enter the last name of the new passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        family_name = inputCommands;
+                        passengerParams.add("`family_name`='" + family_name + "'");
+                    }
+                }
+                System.out.println("Please enter the new D.O.B (YYYY-MM-DD) of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        dob = inputCommands;
+                        passengerParams.add("`dob`='" + dob + "'");
+                    }
+                }
+                System.out.println("Please enter the gender of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        gender = inputCommands;
+                        passengerParams.add("`gender`='" + gender + "'");
+                    }
+                }
+                System.out.println("Please enter the address of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A")) {
+                        address = inputCommands;
+                        passengerParams.add("`address`='" + address + "'");
+                    }
+                }
+                if (bookingParams.size() > 0) {
+                    Integer bookingComma = 0;
+                    for (String param : bookingParams) {
+                        if (bookingComma == 0) {
+                            updateBooking.append(param);
+                        } else {
+                            updateBooking.append("," + param);
+                        }
+                        bookingComma++;
+                    }
+
+                    updateBooking.append(" WHERE `id`='" + id + "';");
+
+
+//                    System.out.println("debug : " + updateBooking);
+
+                    //Passenger
+                    if (passengerParams.size() > 0) {
+                        Integer passengerComma = 0;
+                        for (String param : passengerParams) {
+                            if (passengerComma == 0) {
+                                updatePassenger.append(param);
+                            } else {
+                                updatePassenger.append("," + param);
+                            }
+                            passengerComma++;
+                        }
+
+                        updatePassenger.append(" WHERE `id`='" + id + "';");
+
+//                        System.out.println("debug : " + updatePassenger);
+
+                    }
+                    else
+                    {
+                        System.out.println("You did not enter any valid input for " +
+                                "either first name, last name, D.O.B., gender, or address.\n");
+
+                        break;
+                    }
+
+
+
+                    Integer bookingSuccess = 0;
+
+                    try {
+                        bookingSuccess = dbc.insUpconn(updateBooking.toString(), false);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    Integer passengerSuccess = 0;
+
+                    if (bookingSuccess > 0) {
+                        try {
+                            passengerSuccess = dbc.insUpconn(updatePassenger.toString(), false);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+
+                    if (bookingSuccess > 0 && passengerSuccess > 0) {
+                        System.out.println("The record was successfully inserted.");
+                    }
+                    else {
+                        System.out.println("There was an issue with your request, please try again.\n");
+                    }
+                } else {
+                    System.out.println("You did not enter any valid input for " +
+                            "either booking id, is_active, or confirmation_code.\n");
+                }
+
+
+                break;
+            }
+            case "Airports": {
+                String inputCommands;
+                Airport origin = new Airport();
+                Airport newOrigin = new Airport();
+                StringBuilder sql = new StringBuilder("UPDATE `utopia`.`airport` SET ");
+                ArrayList<String> params = new ArrayList<>();
+
+                System.out.println("Please enter the Airport code that you wish to update:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        origin.setAirportCode(inputCommands);
+                    }
+                }
+                System.out.println("Please enter new Airport code or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        newOrigin.setAirportCode(inputCommands);
+                        params.add("`iata_id`='"+newOrigin.getAirportCode()+"'");
+                    }
+                }
+                System.out.println("Please enter new City  or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        newOrigin.setCity(inputCommands);
+                        params.add("`city`='"+newOrigin.getCity()+"'");
+                    }
+                }
+
+                if(params.size() > 0) {
+                    Integer comma = 0;
+                    for (String param : params) {
+                        if (comma == 0) {
+                            sql.append(param);
+                        } else {
+                            sql.append("," + param);
+                        }
+                        comma++;
+                    }
+
+                    sql.append(" WHERE `iata_id`='" + origin.getAirportCode() + "';");
+
+//                    System.out.println("debug : " + sql);
+                    Integer success = 0;
+
+                    try {
+                        success = dbc.insUpconn(sql.toString(), false);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    if (success > 0) {
+                        System.out.println("The record was successfully inserted.");
+                    }
+                }
+                else{
+                    System.out.println("You did not enter any valid input.\n");
+                }
+
+
+
+                break;
+            }
+            case "Travelers": {
+                String inputCommands;
+                String id = "";
+                String newID = "";
+                String bookingID = "";
+                String given_name = "";
+                String family_name = "";
+                String dob = "";
+                String gender = "";
+                String address = "";
+                StringBuilder sql = new StringBuilder("UPDATE `utopia`.`passenger` SET ");
+                ArrayList<String> params = new ArrayList<>();
+
+                System.out.println("Please enter the id that you wish to update:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        id = inputCommands;
+                    }
+                }
+                System.out.println("Please enter a new id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        newID = inputCommands;
+                        params.add("`id`='"+ newID+"'");
+                    }
+                }
+                System.out.println("Please enter a different existing booking id number or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        bookingID = inputCommands;
+                        params.add("`booking_id`='"+bookingID+"'");
+                    }
+                }
+                System.out.println("Please enter the new first name of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        given_name = inputCommands;
+                        params.add("`given_name`='"+given_name+"'");
+                    }
+                }
+                System.out.println("Please enter the new last name of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        family_name = inputCommands;
+                        params.add("`family_name`='"+family_name+"'");
+                    }
+                }
+                System.out.println("Please enter the D.O.B (YYYY-MM-DD) of the passenger:or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        dob = inputCommands;
+                        params.add("`dob`='"+dob+"'");
+                    }
+                }
+                System.out.println("Please enter the new gender of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        gender = inputCommands;
+                        params.add("`gender`='"+gender+"'");
+                    }
+                }
+                System.out.println("Please enter the new address of the passenger or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        address = inputCommands;
+                        params.add("`address`='"+address+"'");
+                    }
+                }
+
+
+                if(params.size() > 0) {
+                    Integer comma = 0;
+                    for (String param : params) {
+                        if (comma == 0) {
+                            sql.append(param);
+                        } else {
+                            sql.append("," + param);
+                        }
+                        comma++;
+                    }
+
+                    sql.append(" WHERE `id`='" + id + "';");
+
+//                    System.out.println("debug : " + sql);
+                    Integer success = 0;
+
+                    try {
+                        success = dbc.insUpconn(sql.toString(), false);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    if (success > 0) {
+                        System.out.println("The record was successfully inserted.");
+                    }
+                }
+                else{
+                    System.out.println("You did not enter any valid input.\n");
+                }
+
+
+                break;
+            }
+            case "Employees": {
+                String inputCommands;
+                String id="";
+                String newID = "";
+                String given_name = "";
+                String family_name = "";
+                String username = "";
+                String email = "";
+                String password = "";
+                String phone = "";
+                StringBuilder sql = new StringBuilder("UPDATE `utopia`.`user` SET ");
+                ArrayList<String> params = new ArrayList<>();
+
+                System.out.println("Please enter the id that you wish to update or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        id = inputCommands;
+                    }
+                }
+                System.out.println("Please enter the new id or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        newID = inputCommands;
+                        params.add("`id`='"+newID+"'");
+                    }
+                }
+                System.out.println("Please enter the new first name of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        given_name = inputCommands;
+                        params.add("`given_name`='"+given_name+"'");
+                    }
+                }
+                System.out.println("Please enter the new last name of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        family_name = inputCommands;
+                        params.add("`family_name`='"+family_name+"'");
+                    }
+                }
+                System.out.println("Please enter the new username of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        username = inputCommands;
+                        params.add("`username`='"+username+"'");
+                    }
+                }
+                System.out.println("Please enter the new email of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        email = inputCommands;
+                        params.add("`email`='"+email+"'");
+                    }
+                }
+                System.out.println("Please enter the password of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        password = inputCommands;
+                        params.add("`password`='"+password+"'");
+                    }
+                }
+                System.out.println("Please enter the phone of the employee or N/A for no change:");
+                if (userInput.hasNextLine()) {
+                    inputCommands = userInput.nextLine();
+                    if (!inputCommands.equals("N/A" )) {
+                        phone = inputCommands;
+                        params.add("`phone`='"+phone+"'");
+                    }
+                }
+
+                if(params.size() > 0) {
+                    Integer comma = 0;
+                    for (String param : params) {
+                        if (comma == 0) {
+                            sql.append(param);
+                        } else {
+                            sql.append("," + param);
+                        }
+                        comma++;
+                    }
+
+                    sql.append(" WHERE `id`='"+id+"' and `role_id` = '3';");
+
+//                    System.out.println("debug : " + sql);
+                    Integer success = 0;
+
+                    try {
+                        success = dbc.insUpconn(sql.toString(), false);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    if (success > 0) {
+                        System.out.println("The record was successfully inserted.");
+                    }
+                }
+                else{
+                    System.out.println("You did not enter any valid input.\n");
+                }
+
+                break;
+            }
+
+
+            default:
+        }
+        System.out.println("\nPress 1) to return to the main menu");
+
+        //after results handle input to return to previous or main menu
+        handle.handleReadUpdateResponse(userInput);
+        userInput.close();
     }
 }
 

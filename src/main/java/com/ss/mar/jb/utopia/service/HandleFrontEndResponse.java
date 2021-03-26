@@ -37,7 +37,7 @@ public class HandleFrontEndResponse {
 //                    System.out.println("Please make a valid selection");
 //                    System.out.println();
 //                System.out.println(x);
-
+                System.out.println("Not a valid selection returing to Main menu\n");
 
                 menu.mainMenu();
         }
@@ -98,7 +98,7 @@ public class HandleFrontEndResponse {
                 try {
                     menu.employeeMenuTwo();
                 } catch (SQLException throwables) {
-                    System.out.println("Oops something went wrong... now returning to Main Menu");
+                    System.out.println("Oops something went wrong... now returning to Previous Menu");
                     this.x = 0;
                     menu.mainMenu();
                 }
@@ -110,7 +110,7 @@ public class HandleFrontEndResponse {
                 break;
             }
             default:
-                System.out.println("Invalid selection... now returning to Main Menu");
+                System.out.println("Invalid selection... now returning to Previous Menu");
                 this.x = 0;
                 menu.mainMenu();
         }
@@ -163,7 +163,7 @@ public class HandleFrontEndResponse {
                         " AS AVAIL_SEATS" + "  FROM UTOPIA.FLIGHT " +
                         " INNER JOIN UTOPIA.AIRPLANE ON UTOPIA.AIRPLANE.ID=UTOPIA.FLIGHT.AIRPLANE_ID" +
                         " INNER JOIN UTOPIA.AIRPLANE_TYPE ON UTOPIA.AIRPLANE_TYPE.ID=UTOPIA.AIRPLANE.ID" +
-                        " WHERE UTOPIA.FLIGHT.ID=123";
+                        " WHERE UTOPIA.FLIGHT.ID="+one.get(0)+"";
 
                 try {
                     threeOne = dbc.connSelect(sql);
@@ -173,10 +173,25 @@ public class HandleFrontEndResponse {
                     this.x = 0;
                 }
 
+
+
+//                for (String s : one) {
+//                    System.out.print("debug one : " +s );
+//                }
+//
+//                for (ArrayList<String> strings : threeOne) {
+//                    for (String string : strings) {
+//                        System.out.print("Debug inner " + string);
+//                    }
+//                    System.out.println("Debug outter");
+//                }
+
                 //rounding down to not to exceed remaining seating capacity
-                Integer first = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .15);
-                Integer business = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .25);
-                Integer economy = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .60);
+
+                    Integer first = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .15);
+                    Integer business = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .25);
+                    Integer economy = (int) Math.floor(Integer.parseInt(threeOne.get(1).get(2)) * .60);
+
 
                 System.out.println("Departure Airport: " + one.get(1) +
                         " | " + "Arrival Airport: " + one.get(3) + " |");
@@ -234,7 +249,12 @@ public class HandleFrontEndResponse {
             default:
                 System.out.println("Invalid selection... now returning to Main Menu");
                 this.x = 0;
-                menu.mainMenu();
+//                menu.mainMenu();
+                try {
+                    menu.employeeMenuTwo();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
         }
 
 
@@ -330,14 +350,14 @@ public class HandleFrontEndResponse {
         //insert Origin into Airport
         if (origin.getCity() != null && origin.getAirportCode() != null) {
             try {
-                originSuccess = dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false);
+                originSuccess = dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
             }
         }
         //Insert Destination into Airport
         if (dest.getAirportCode() != null && dest.getCity() != null) {
             try {
-                destSuccess = dbc.insUpconn(sqlInsertNewDestIntoAirport1, false);
+                destSuccess = dbc.insUpconn(sqlInsertNewDestIntoAirport1, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
             }
         }
@@ -345,11 +365,12 @@ public class HandleFrontEndResponse {
 
         //insert a new route and capture the PK key generated
         Integer routeGenKey = 0;
+        Integer resultReturn = 0;
         if (originSuccess > 0 && destSuccess > 0) {
             String sql = "INSERT INTO UTOPIA.ROUTE VALUES (NULL ,'" + origin.getAirportCode()
                     + "','" + dest.getAirportCode() + "');";
             try {
-                routeGenKey = dbc.insUpconn(sql, true);
+                routeGenKey = dbc.insUpconn(sql, true,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -371,7 +392,7 @@ public class HandleFrontEndResponse {
                     origin.getAirportCode() + "' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
 //            System.out.println(updateOrginonRoute);
             try {
-                dbc.insUpconn(updateOrginonRoute, false);
+                dbc.insUpconn(updateOrginonRoute, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
 //                throwables.get
@@ -391,7 +412,7 @@ public class HandleFrontEndResponse {
             String updateDestinationRoute = "UPDATE UTOPIA.ROUTE SET UTOPIA.ROUTE.destination_id ='" +
                     dest.getAirportCode() + "' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
             try {
-                dbc.insUpconn(updateDestinationRoute, false);
+                dbc.insUpconn(updateDestinationRoute, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -406,7 +427,7 @@ public class HandleFrontEndResponse {
             String flightUpdateNewRoute = "UPDATE `utopia`.`flight` SET `route_id`='" + routeGenKey + "'," +
                     " `departure_time`='" + departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
             try {
-                dbc.insUpconn(flightUpdateNewRoute, false);
+                dbc.insUpconn(flightUpdateNewRoute, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -416,12 +437,16 @@ public class HandleFrontEndResponse {
             String flightUpdateDepartureOnly = "UPDATE `utopia`.`flight` SET `" +
                     "departure_time`='" + departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
             try {
-                dbc.insUpconn(flightUpdateDepartureOnly, false);
+                resultReturn = dbc.insUpconn(flightUpdateDepartureOnly, false,"employeeMenuTwo");
             } catch (SQLException throwables) {
+
                 throwables.printStackTrace();
             }
         }
 
+        if (routeGenKey > 0 || resultReturn > 0){
+            System.out.println("Update Successful");
+        }
 
         menu.employeeMenuThree(one);
 
@@ -646,7 +671,9 @@ public class HandleFrontEndResponse {
                 break;
             }
             default:
-                menu.mainMenu();
+                System.out.println("Invalid selection returning to Admin Menu One\n");
+//                menu.mainMenu();
+                menu.adminMenuOne();
         }
 
 
@@ -660,11 +687,11 @@ public class HandleFrontEndResponse {
         switch (this.x) {
             case 1: {
                 this.x = 0;
-                menu.mainMenu();
+                menu.adminMenuOne();
                 break;
             }
             default:
-//                System.out.println("Invalid selection... now returning to Main Menu");
+//                ?System.out.println("Invalid selection... now returning to Main Menu");
                 this.x = 0;
                 menu.mainMenu();
         }
@@ -786,7 +813,7 @@ public class HandleFrontEndResponse {
                 try {
                     readResults =
                             dbc.connSelect(
-                                    "SELECT * FROM utopia.user where utopia.user.role_id = 3;");
+                                    "SELECT * FROM utopia.user where utopia.user.role_id = 3 limit 10;");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -861,9 +888,10 @@ public class HandleFrontEndResponse {
                 break;
             }
             default:
-                System.out.println("Invalid selection... now returning to Main Menu\n");
+                System.out.println("Invalid selection... now returning to Previous Menu\n");
                 this.x = 0;
-                menu.mainMenu();
+//                menu.mainMenu();
+                menu.adminMenuOne();
         }
 
 

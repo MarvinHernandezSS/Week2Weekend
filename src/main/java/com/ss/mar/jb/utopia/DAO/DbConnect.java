@@ -59,7 +59,7 @@ public class DbConnect  {
         return results;
     }
 
-    public Integer insUpconn(String sqlInsertorUpdate, boolean isGenKeyExpected) throws SQLException {
+    public Integer insUpconn(String sqlInsertorUpdate, boolean isGenKeyExpected, String returnMenu) throws SQLException {
 
         Connection conn = DriverManager.getConnection(url,username,password);
         Integer genKey=0;
@@ -75,7 +75,21 @@ public class DbConnect  {
             } catch (ClassNotFoundException | SQLException e) {
                 SwappableMenuSystem M = new SwappableMenuSystem();
                 System.out.println("There was an issue with your request." +
-                        " Please check your input. Returning to the Main Menu\n\n\n");
+                        " Please check your input.");
+                switch (returnMenu){
+                    case "employeeMenuTwo":{
+                        System.out.println("Returning to the Employee Menu Two\n\n\n");
+                        M.employeeMenuTwo();
+                        break;
+                    }
+                    case "adminMenuOne":{
+                        System.out.println("Returning to the Admin Menu One\n\n\n");
+                        M.adminMenuOne();
+                        break;
+                    }
+
+                }
+
 //                System.out.println(sqlInsertorUpdate + "\n");
                 M.mainMenu();
 //            System.out.println("block it");

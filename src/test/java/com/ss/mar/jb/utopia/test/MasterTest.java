@@ -43,7 +43,7 @@ DbConnect dbc = new DbConnect();
     @Test
     public void insUpconnTest(){
         try {
-            assertEquals(x,dbc.insUpconn("",false));
+            assertEquals(x,dbc.insUpconn("",false,"employeeMenuTwo"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

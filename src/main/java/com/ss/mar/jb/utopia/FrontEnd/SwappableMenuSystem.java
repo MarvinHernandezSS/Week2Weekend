@@ -257,7 +257,8 @@ public class SwappableMenuSystem {
             }
             System.out.println();
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
 
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
@@ -292,7 +293,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -331,7 +332,7 @@ public class SwappableMenuSystem {
                 Integer bookingSuccess = 0;
 
                 try {
-                    bookingSuccess = dbc.insUpconn(deleteBooking, false);
+                    bookingSuccess = dbc.insUpconn(deleteBooking, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -371,7 +372,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -403,7 +404,7 @@ public class SwappableMenuSystem {
 //                System.out.println("debug " + sql);
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -433,7 +434,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -449,7 +450,8 @@ public class SwappableMenuSystem {
 
             default:
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
         userInput.close();
@@ -541,7 +543,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -658,7 +660,7 @@ public class SwappableMenuSystem {
                 Integer bookingSuccess = 0;
 
                 try {
-                    bookingSuccess = dbc.insUpconn(insertBooking, false);
+                    bookingSuccess = dbc.insUpconn(insertBooking, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -666,7 +668,7 @@ public class SwappableMenuSystem {
 
                 if (bookingSuccess > 0) {
                     try {
-                        passengerSuccess = dbc.insUpconn(insertPassenger, false);
+                        passengerSuccess = dbc.insUpconn(insertPassenger, false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -722,7 +724,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
                 if (origin.getAirportCode() != null && origin.getCity() != null) {
                     try {
-                        success = dbc.insUpconn(sql, false);
+                        success = dbc.insUpconn(sql, false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -810,7 +812,7 @@ public class SwappableMenuSystem {
                 Integer passengerSuccess = 0;
 
                 try {
-                    passengerSuccess = dbc.insUpconn(insertPassenger, true);
+                    passengerSuccess = dbc.insUpconn(insertPassenger, true,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -915,7 +917,7 @@ public class SwappableMenuSystem {
                     System.out.println("Please recheck your input for any missing paramerters.");
                 } else {
                     try {
-                        success = dbc.insUpconn(sql, true);
+                        success = dbc.insUpconn(sql, true,"adminMenuOne");
                     } catch (SQLException throwables) {
                         System.out.println("There was an issue with the request, returning to previous menu");
                         adminMenuOne();
@@ -925,7 +927,7 @@ public class SwappableMenuSystem {
                 if (success > 0) {
                     ArrayList<ArrayList<String>> conf = new ArrayList<>();
                     String confAdd = "SELECT * FROM utopia.user where utopia.user.id = "+success+";";
-                    System.out.println(confAdd);
+//                    System.out.println("debuf " +confAdd);
                     try {
                         conf = dbc.connSelect(confAdd);
                     } catch (SQLException throwables) {
@@ -948,7 +950,8 @@ public class SwappableMenuSystem {
             default:
 
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
 
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
@@ -1074,7 +1077,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1228,7 +1231,7 @@ public class SwappableMenuSystem {
                     Integer bookingSuccess = 0;
 
                     try {
-                        bookingSuccess = dbc.insUpconn(updateBooking.toString(), false);
+                        bookingSuccess = dbc.insUpconn(updateBooking.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1236,7 +1239,7 @@ public class SwappableMenuSystem {
 
                     if (bookingSuccess > 0) {
                         try {
-                            passengerSuccess = dbc.insUpconn(updatePassenger.toString(), false);
+                            passengerSuccess = dbc.insUpconn(updatePassenger.toString(), false,"adminMenuOne");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
@@ -1303,7 +1306,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1413,7 +1416,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1522,7 +1525,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1540,7 +1543,8 @@ public class SwappableMenuSystem {
 
             default:
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
 
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
@@ -1837,7 +1841,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -1846,32 +1850,28 @@ public class SwappableMenuSystem {
                     if (success > 0) {
                         ArrayList<ArrayList<String>> conf = new ArrayList<>();
                         if (newID.length() > 0) {
-                            confAdd = "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME," +
-                                    "utopia.passenger.FAMILY_NAME,utopia.booking.confirmation_code " +
-                                    "FROM utopia.passenger INNER JOIN utopia.booking on " +
-                                    "utopia.booking.id=utopia.passenger.booking_id where " +
-                                    "utopia.booking.id='" + newID + "';";
-
+                            confAdd = "SELECT * FROM utopia.flight where utopia.flight.id = '" + newID + "';";
                         } else {
-                            confAdd = "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME," +
-                                    "utopia.passenger.FAMILY_NAME,utopia.booking.confirmation_code " +
-                                    "FROM utopia.passenger INNER JOIN utopia.booking on " +
-                                    "utopia.booking.id=utopia.passenger.booking_id where " +
-                                    "utopia.booking.id='" + id + "';";
+                            confAdd = "SELECT * FROM utopia.flight where utopia.flight.id = '" + id + "';";
                         }
                         try {
+                            System.out.println(confAdd);
                             conf = dbc.connSelect(confAdd);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
                         System.out.println("The record was successfully updated.");
-                        System.out.println(conf.get(1).get(0) + " " +
+                        try{
+                        System.out.println(
                                 conf.get(1).get(1) + " " +
                                 conf.get(1).get(2) + " " +
                                 conf.get(1).get(3) + " " +
                                 conf.get(1).get(4) + " " +
-                                conf.get(1).get(5) + " " +
-                                conf.get(1).get(6));
+                                conf.get(1).get(5));
+                        }
+                        catch (IndexOutOfBoundsException e) {
+                        }
+
                     }
                 } else {
                     System.out.println("You did not enter any valid input.\n");
@@ -2019,7 +2019,7 @@ public class SwappableMenuSystem {
                     Integer bookingSuccess = 0;
 
                     try {
-                        bookingSuccess = dbc.insUpconn(updateBooking.toString(), false);
+                        bookingSuccess = dbc.insUpconn(updateBooking.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -2027,7 +2027,7 @@ public class SwappableMenuSystem {
 
                     if (bookingSuccess > 0) {
                         try {
-                            passengerSuccess = dbc.insUpconn(updatePassenger.toString(), false);
+                            passengerSuccess = dbc.insUpconn(updatePassenger.toString(), false,"adminMenuOne");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
@@ -2036,9 +2036,18 @@ public class SwappableMenuSystem {
                     if (bookingSuccess > 0 && passengerSuccess > 0) {
                         ArrayList<ArrayList<String>> conf = new ArrayList<>();
                         if (newID.length() > 0) {
-                            confAdd = "SELECT * FROM utopia.flight where utopia.flight.id = '" + newID + "';";
+                            confAdd = "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME," +
+                                    "utopia.passenger.FAMILY_NAME,utopia.booking.confirmation_code " +
+                                    "FROM utopia.passenger INNER JOIN utopia.booking on " +
+                                    "utopia.booking.id=utopia.passenger.booking_id where " +
+                                    "utopia.booking.id='" + newID + "';";
+
                         } else {
-                            confAdd = "SELECT * FROM utopia.flight where utopia.flight.id = '" + id + "';";
+                            confAdd = "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME," +
+                                    "utopia.passenger.FAMILY_NAME,utopia.booking.confirmation_code " +
+                                    "FROM utopia.passenger INNER JOIN utopia.booking on " +
+                                    "utopia.booking.id=utopia.passenger.booking_id where " +
+                                    "utopia.booking.id='" + id + "';";
                         }
                         try {
                             conf = dbc.connSelect(confAdd);
@@ -2115,7 +2124,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -2242,7 +2251,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -2378,7 +2387,7 @@ public class SwappableMenuSystem {
                     Integer success = 0;
 
                     try {
-                        success = dbc.insUpconn(sql.toString(), false);
+                        success = dbc.insUpconn(sql.toString(), false,"adminMenuOne");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -2416,7 +2425,8 @@ public class SwappableMenuSystem {
 
             default:
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
 
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
@@ -2452,7 +2462,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -2491,7 +2501,7 @@ public class SwappableMenuSystem {
                 Integer bookingSuccess = 0;
 
                 try {
-                    bookingSuccess = dbc.insUpconn(deleteBooking, false);
+                    bookingSuccess = dbc.insUpconn(deleteBooking, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -2531,7 +2541,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -2563,7 +2573,7 @@ public class SwappableMenuSystem {
 //                System.out.println("debug " + sql);
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -2593,7 +2603,7 @@ public class SwappableMenuSystem {
                 Integer success = 0;
 
                 try {
-                    success = dbc.insUpconn(sql, false);
+                    success = dbc.insUpconn(sql, false,"adminMenuOne");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -2609,7 +2619,8 @@ public class SwappableMenuSystem {
 
             default:
         }
-        System.out.println("\nPress 1) to return to the main menu");
+        System.out.println("\nPress 1) to return to the Admin Menu One\nPress " +
+                "another key to return to the Main menu.");
         //after results handle input to return to previous or main menu
         handle.handleReadUpdateResponse(userInput);
         userInput.close();

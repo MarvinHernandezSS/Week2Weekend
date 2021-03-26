@@ -447,13 +447,13 @@ public class MenuSystem {
         //insert Origin into Airport
         if (origin.getCity() != null && origin.getAirportCode() != null){
             try {
-                originSuccess =  dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false);
+                originSuccess =  dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false,"employeeMenuTwo");
             } catch (SQLException throwables) { }
         }
         //Insert Destination into Airport
         if (dest.getAirportCode() !=null && dest.getCity() != null){
             try {
-                destSuccess =  dbc.insUpconn(sqlInsertNewDestIntoAirport1, false);
+                destSuccess =  dbc.insUpconn(sqlInsertNewDestIntoAirport1, false,"employeeMenuTwo");
             } catch (SQLException throwables) { }
         }
 
@@ -464,7 +464,7 @@ public class MenuSystem {
             String sql = "INSERT INTO UTOPIA.ROUTE VALUES (NULL ,'"+ origin.getAirportCode()
             + "','"+dest.getAirportCode() +"');";
             try {
-                routeGenKey = dbc.insUpconn(sql,true);
+                routeGenKey = dbc.insUpconn(sql,true,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -486,7 +486,7 @@ public class MenuSystem {
                     origin.getAirportCode() +"' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
 //            System.out.println(updateOrginonRoute);
             try {
-                dbc.insUpconn(updateOrginonRoute,false);
+                dbc.insUpconn(updateOrginonRoute,false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -504,7 +504,7 @@ public class MenuSystem {
             String updateDestinationRoute = "UPDATE UTOPIA.ROUTE SET UTOPIA.ROUTE.destination_id ='" +
                     dest.getAirportCode() +"' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
             try {
-                dbc.insUpconn(updateDestinationRoute,false);
+                dbc.insUpconn(updateDestinationRoute,false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -519,7 +519,7 @@ public class MenuSystem {
             String flightUpdateNewRoute = "UPDATE `utopia`.`flight` SET `route_id`='" + routeGenKey +"'," +
                     " `departure_time`='"+ departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
             try {
-                dbc.insUpconn(flightUpdateNewRoute,false);
+                dbc.insUpconn(flightUpdateNewRoute,false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -530,7 +530,7 @@ public class MenuSystem {
             String flightUpdateDepartureOnly = "UPDATE `utopia`.`flight` SET `" +
                     "departure_time`='" + departTime.toString() + "' WHERE `id`='"+ one.get(0) +"';";
             try {
-                dbc.insUpconn(flightUpdateDepartureOnly,false);
+                dbc.insUpconn(flightUpdateDepartureOnly,false,"employeeMenuTwo");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

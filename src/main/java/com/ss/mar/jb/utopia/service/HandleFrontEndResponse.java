@@ -15,14 +15,14 @@ public class HandleFrontEndResponse {
 //    SwappableMenuSystem menu = new SwappableMenuSystem();
 
     public void handleMainMenuResponse(Scanner scan) {
-    SwappableMenuSystem menu = new SwappableMenuSystem();
+        SwappableMenuSystem menu = new SwappableMenuSystem();
 
         verifyUserInput(scan);
 
 
         switch (this.x) {
             case 1: {
-               menu.employeeMenuOne();
+                menu.employeeMenuOne();
                 break;
             }
             case 2: {
@@ -76,7 +76,7 @@ public class HandleFrontEndResponse {
 
         Integer columncheck = 0;
         for (ArrayList<String> membershipNum : membershipNums) {
-            if(columncheck > 0) {
+            if (columncheck > 0) {
                 if (this.x == Integer.parseInt(membershipNum.get(0))) {
                     match = true;
                     break;
@@ -89,14 +89,14 @@ public class HandleFrontEndResponse {
 
     public void handleEmployeeMenuOneResponse(Scanner userInput) {
         verifyUserInput(userInput);
-            SwappableMenuSystem menu = new SwappableMenuSystem();
+        SwappableMenuSystem menu = new SwappableMenuSystem();
 
 
         switch (this.x) {
             case 1: {
                 this.x = 0;
                 try {
-                   menu.employeeMenuTwo();
+                    menu.employeeMenuTwo();
                 } catch (SQLException throwables) {
                     System.out.println("Oops something went wrong... now returning to Main Menu");
                     this.x = 0;
@@ -196,7 +196,7 @@ public class HandleFrontEndResponse {
 
 //                System.out.println("debug X = " + this.x);
 
-                if (userInput.hasNextLine()){
+                if (userInput.hasNextLine()) {
                     menu.employeeMenuThree(one);
                 }
 
@@ -207,11 +207,11 @@ public class HandleFrontEndResponse {
                         " Id: " + one.get(0) + " and Departure Airport: " +
                         one.get(1) + " and Arrival Airport: " +
                         one.get(3) + ".");
-                System.out.println("Enter ‘quit’ at any prompt to cancel operation.\n");
+//                System.out.println("Enter ‘quit’ at any prompt to cancel operation.\n");
                 System.out.println("Please enter new Origin Airport and City or enter N/A for no change:");
                 System.out.println("\n");
 
-                handleEmployeeMenuThreeResponseTwo(userInput,one);
+                handleEmployeeMenuThreeResponseTwo(userInput, one);
 
 
                 break;
@@ -252,49 +252,63 @@ public class HandleFrontEndResponse {
         SwappableMenuSystem menu = new SwappableMenuSystem();
 
 
-
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){origin.setAirportCode(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                origin.setAirportCode(inputCommands);
+            }
         }
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ origin.setCity(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                origin.setCity(inputCommands);
+            }
         }
         System.out.println("Please enter new Destination Airport and City or enter N/A for no change:");
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){dest.setAirportCode(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                dest.setAirportCode(inputCommands);
+            }
         }
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ dest.setCity(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                dest.setCity(inputCommands);
+            }
         }
         System.out.println("Please enter new Departure Date (YYYY-MM-DD) or enter N/A for no change:");
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ departTime.append(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                departTime.append(inputCommands);
+            }
         }
         System.out.println("Please enter new Departure Time (HH:MM:SS) or enter N/A for no change:");
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ departTime.append(" " + inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                departTime.append(" " + inputCommands);
+            }
         }
         System.out.println("Please enter new Arrival Date (YYYY-MM-DD) or enter N/A for no change:");
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ arriveTime.append(inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                arriveTime.append(inputCommands);
+            }
         }
         System.out.println("Please enter new Arrival Time (HH:MM:SS) or enter N/A for no change:");
-        if (userInput.hasNextLine()){
-            inputCommands=userInput.nextLine();
-            if (inputCommands != "N/A"){ arriveTime.append(" " + inputCommands); }
+        if (userInput.hasNextLine()) {
+            inputCommands = userInput.nextLine();
+            if (inputCommands != "N/A") {
+                arriveTime.append(" " + inputCommands);
+            }
         }
 
 
         String de = departTime.toString();
         String ar = arriveTime.toString();
-
 
 
 //        System.out.println("debug " + origin.getAirportCode() + " " + origin.getCity());
@@ -314,26 +328,28 @@ public class HandleFrontEndResponse {
         Integer destSuccess = 0;
 
         //insert Origin into Airport
-        if (origin.getCity() != null && origin.getAirportCode() != null){
+        if (origin.getCity() != null && origin.getAirportCode() != null) {
             try {
-                originSuccess =  dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false);
-            } catch (SQLException throwables) { }
+                originSuccess = dbc.insUpconn(sqlInsertNewOriginIntoAirport1, false);
+            } catch (SQLException throwables) {
+            }
         }
         //Insert Destination into Airport
-        if (dest.getAirportCode() !=null && dest.getCity() != null){
+        if (dest.getAirportCode() != null && dest.getCity() != null) {
             try {
-                destSuccess =  dbc.insUpconn(sqlInsertNewDestIntoAirport1, false);
-            } catch (SQLException throwables) { }
+                destSuccess = dbc.insUpconn(sqlInsertNewDestIntoAirport1, false);
+            } catch (SQLException throwables) {
+            }
         }
 
 
         //insert a new route and capture the PK key generated
         Integer routeGenKey = 0;
-        if ( originSuccess > 0 && destSuccess > 0){
-            String sql = "INSERT INTO UTOPIA.ROUTE VALUES (NULL ,'"+ origin.getAirportCode()
-                    + "','"+dest.getAirportCode() +"');";
+        if (originSuccess > 0 && destSuccess > 0) {
+            String sql = "INSERT INTO UTOPIA.ROUTE VALUES (NULL ,'" + origin.getAirportCode()
+                    + "','" + dest.getAirportCode() + "');";
             try {
-                routeGenKey = dbc.insUpconn(sql,true);
+                routeGenKey = dbc.insUpconn(sql, true);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -343,19 +359,19 @@ public class HandleFrontEndResponse {
 
 
         //update the origin of a route
-        if (originSuccess > 0 && destSuccess <= 0){
+        if (originSuccess > 0 && destSuccess <= 0) {
             ArrayList<ArrayList<String>> temp = new ArrayList<>();
-            String getRouteID="SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = "+ one.get(0) +";";
+            String getRouteID = "SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = " + one.get(0) + ";";
             try {
                 temp = dbc.connSelect(getRouteID);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             String updateOrginonRoute = "UPDATE UTOPIA.ROUTE SET UTOPIA.ROUTE.origin_id ='" +
-                    origin.getAirportCode() +"' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
+                    origin.getAirportCode() + "' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
 //            System.out.println(updateOrginonRoute);
             try {
-                dbc.insUpconn(updateOrginonRoute,false);
+                dbc.insUpconn(updateOrginonRoute, false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
 //                throwables.get
@@ -364,18 +380,18 @@ public class HandleFrontEndResponse {
         }
 
         //update the destination of a route
-        if (originSuccess <= 0 && destSuccess > 0){
+        if (originSuccess <= 0 && destSuccess > 0) {
             ArrayList<ArrayList<String>> temp = new ArrayList<>();
-            String getRouteID="SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = "+ one.get(0) +";";
+            String getRouteID = "SELECT utopia.flight.route_id FROM UTOPIA.FLIGHT WHERE UTOPIA.FLIGHT.ID = " + one.get(0) + ";";
             try {
                 temp = dbc.connSelect(getRouteID);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             String updateDestinationRoute = "UPDATE UTOPIA.ROUTE SET UTOPIA.ROUTE.destination_id ='" +
-                    dest.getAirportCode() +"' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
+                    dest.getAirportCode() + "' WHERE UTOPIA.ROUTE.ID = '" + temp.get(0).get(0) + "';";
             try {
-                dbc.insUpconn(updateDestinationRoute,false);
+                dbc.insUpconn(updateDestinationRoute, false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -385,23 +401,22 @@ public class HandleFrontEndResponse {
         //now I need to update flight with the new departure/arrival date times and if needed,
         // i need to also update//the route if routeGenKey is > 0
         //Flight Update based off if there is a new route to add or not
-        if(routeGenKey > 0){
+        if (routeGenKey > 0) {
 //            UPDATE `utopia`.`flight` SET `route_id`='77', `departure_time`='2021-06-21 18:32:14' WHERE `id`='971';
-            String flightUpdateNewRoute = "UPDATE `utopia`.`flight` SET `route_id`='" + routeGenKey +"'," +
-                    " `departure_time`='"+ departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
+            String flightUpdateNewRoute = "UPDATE `utopia`.`flight` SET `route_id`='" + routeGenKey + "'," +
+                    " `departure_time`='" + departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
             try {
-                dbc.insUpconn(flightUpdateNewRoute,false);
+                dbc.insUpconn(flightUpdateNewRoute, false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
-        }
-        else {
+        } else {
 //            UPDATE `utopia`.`flight` SET `departure_time`='2021-06-21 18:32:14' WHERE `id`='971';
             String flightUpdateDepartureOnly = "UPDATE `utopia`.`flight` SET `" +
-                    "departure_time`='" + departTime.toString() + "' WHERE `id`='"+ one.get(0) +"';";
+                    "departure_time`='" + departTime.toString() + "' WHERE `id`='" + one.get(0) + "';";
             try {
-                dbc.insUpconn(flightUpdateDepartureOnly,false);
+                dbc.insUpconn(flightUpdateDepartureOnly, false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -488,33 +503,33 @@ public class HandleFrontEndResponse {
 
         switch (this.x) {
             case 1: {
-                Choice="Flights";
+                Choice = "Flights";
                 menu.addUpdateDeleteReadChoice(Choice);
                 break;
             }
             case 2: {
-                Choice="Seats";
+                Choice = "Seats";
                 menu.addUpdateDeleteReadChoice(Choice);
                 break;
             }
             case 3: {
-                Choice="Tickets and Passengers";
+                Choice = "Tickets and Passengers";
                 menu.addUpdateDeleteReadChoice(Choice);
                 break;
             }
             case 4: {
-                Choice="Airports";
+                Choice = "Airports";
                 menu.addUpdateDeleteReadChoice(Choice);
                 break;
             }
             case 5: {
-                Choice="Travelers";
+                Choice = "Travelers";
                 menu.addUpdateDeleteReadChoice(Choice);
 
                 break;
             }
             case 6: {
-                Choice="Employees";
+                Choice = "Employees";
                 menu.addUpdateDeleteReadChoice(Choice);
 
                 break;
@@ -526,11 +541,13 @@ public class HandleFrontEndResponse {
 
                 break;
             }
+            case 8: {
+                menu.mainMenu();
+            }
             default:
                 System.out.println("Invalid Selection.\nReturning to Main menu......\n\n");
                 menu.mainMenu();
         }
-
 
 
     }
@@ -539,7 +556,7 @@ public class HandleFrontEndResponse {
         SwappableMenuSystem menu = new SwappableMenuSystem();
         verifyUserInput(userInput);
         DbConnect dbc = new DbConnect();
-        ArrayList<ArrayList<String>> readResults = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> readResults = new ArrayList<>();
 
         switch (this.x) {
             case 1: {
@@ -651,6 +668,204 @@ public class HandleFrontEndResponse {
                 this.x = 0;
                 menu.mainMenu();
         }
+
+    }
+
+    public void handleAdminMenuOneReadResults(Scanner userInput) {
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        verifyUserInput(userInput);
+        DbConnect dbc = new DbConnect();
+        String Choice = "";
+        ArrayList<ArrayList<String>> readResults = new ArrayList<>();
+        Boolean notSeats = true;
+
+        switch (this.x) {
+            case 1: {
+                Choice = "Flights";
+//                menu.addUpdateDeleteReadChoice(Choice);
+                break;
+            }
+            case 2: {
+                Choice = "Seats";
+//                menu.addUpdateDeleteReadChoice(Choice);
+                break;
+            }
+            case 3: {
+                Choice = "Tickets and Passengers";
+//                menu.addUpdateDeleteReadChoice(Choice);
+                break;
+            }
+            case 4: {
+                Choice = "Airports";
+//                menu.addUpdateDeleteReadChoice(Choice);
+                break;
+            }
+            case 5: {
+                Choice = "Travelers";
+//                menu.addUpdateDeleteReadChoice(Choice);
+
+                break;
+            }
+            case 6: {
+                Choice = "Employees";
+//                menu.addUpdateDeleteReadChoice(Choice);
+
+                break;
+            }
+            case 7: {
+                System.out.println("Feature not yet implemented. " +
+                        "Please check back soon. \nReturning to previous menu......\n\n");
+                menu.mainMenu();
+
+                break;
+            }
+            case 8: {
+                menu.mainMenu();
+            }
+            default:
+                System.out.println("Invalid Selection.\nReturning to Main menu......\n\n");
+                menu.mainMenu();
+        }
+
+//Run Select Query off of selection
+
+        switch (Choice) {
+            case "Flights": {
+                try {
+                    readResults =
+                            dbc.connSelect(
+                                    "SELECT * FROM utopia.flight LIMIT 10;");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            }
+            case "Seats": {
+                notSeats = false;
+                break;
+            }
+            case "Tickets and Passengers": {
+                try {
+                    readResults =
+                            dbc.connSelect(
+                                    "SELECT utopia.booking.id,utopia.passenger.GIVEN_NAME, " +
+                                            "utopia.passenger.FAMILY_NAME, " +
+                                            "utopia.booking.confirmation_code FROM " +
+                                            "utopia.passenger INNER JOIN utopia.booking on " +
+                                            "utopia.booking.id=utopia.passenger.booking_id;");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            }
+            case "Airports": {
+                try {
+                    readResults =
+                            dbc.connSelect(
+                                    "SELECT * FROM utopia.airport LIMIT 10;");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            }
+            case "Travelers": {
+                try {
+                    readResults =
+                            dbc.connSelect(
+                                    "SELECT utopia.passenger.id, " +
+                                            "utopia.passenger.given_name, " +
+                                            "utopia.passenger.family_name, " +
+                                            "utopia.passenger.dob, " +
+                                            "utopia.passenger.gender FROM utopia.passenger;");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            }
+            case "Employees": {
+                try {
+                    readResults =
+                            dbc.connSelect(
+                                    "SELECT * FROM utopia.user where utopia.user.role_id = 3;");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            }
+            default:
+
+        }
+        if (notSeats) {
+            menu.addUpdateDeleteChoiceWithRead(readResults, Choice);
+        } else {
+            System.out.println("Not yet implemented\nReturning to Admin Menu One\n");
+            menu.adminMenuOne();
+        }
+
+    }
+
+    public void AddUpdateDeleteChoiceResponse(Scanner userInput,
+                                              ArrayList<ArrayList<String>> readResults,
+                                              Integer topRow, String choice) {
+
+        verifyUserInput(userInput);
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+        this.counter = topRow;
+
+//        System.out.println("debug toprow = " + this.counter);
+//        debughandleEmployeeMenuTwoResponse++;
+
+        if (this.x > this.counter || this.x == 0) {
+            if (this.x == this.counter + 1) {
+                menu.adminMenuOne();
+                this.counter = 1;
+            } else {
+                System.out.println("Invalid selection... now returning to previous admin menu");
+                this.counter = 1;
+                menu.adminMenuOne();
+            }
+        }
+        if (this.x == this.counter) {
+            menu.add(choice);
+            this.counter = 1;
+        }
+        if (this.x != this.counter) {
+            menu.updateDeleteChoicePicked(readResults.get(x), choice);
+//            menu.employeeMenuThree(readResults.get(x - 1));
+
+        } else {
+            this.counter = 1;
+            System.out.println("not sure when this will proc");
+            menu.adminMenuOne();
+        }
+
+    }
+
+    public void updateDeleteChoicePickedResponse(Scanner userInput, ArrayList<String> strings, String choice) {
+        verifyUserInput(userInput);
+        SwappableMenuSystem menu = new SwappableMenuSystem();
+
+        switch (this.x) {
+            case 1: {
+                menu.updateWithChoice(choice, strings);
+
+                break;
+            }
+            case 2: {
+                menu.deleteWithChoice(choice, strings);
+                break;
+            }
+            case 3: {
+                menu.adminMenuOne();
+                ;
+                break;
+            }
+            default:
+                System.out.println("Invalid selection... now returning to Main Menu\n");
+                this.x = 0;
+                menu.mainMenu();
+        }
+
 
     }
 }
